@@ -1,7 +1,7 @@
 IMAGE_TAG = stm32_dev
 STM32_SERIAL_DEV = /dev/ttyUSB0
 
-build: Dockerfile
+build:
 	docker build -t $(IMAGE_TAG) .
 
 run:

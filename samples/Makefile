@@ -1,0 +1,35 @@
+CMSISDIR = /tmp/STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS
+STM32F1xx_DIR = $(CMSISDIR)/Device/ST/STM32F1xx/Source/Templates
+
+CPU = cortex-m3
+MACHINE_FLAGS = -mthumb -mcpu=$(CPU)
+CFLAGS = -std=c99 -Wall -fno-common -g -DSTM32F103xB $(MACHINE_FLAGS)
+INCLUDES = -I${CMSISDIR}/Include -I${CMSISDIR}/Device/ST/STM32F1xx/Include
+
+STM32_OBJ = system_stm32f1xx.o startup_stm32f103xb.o
+BIN = blink.bin
+
+.PRECIOUS: %.elf %.o
+
+all: $(BIN)
+
+%.bin: %.elf
+	arm-none-eabi-objcopy -R .stack -O binary $< $@
+
+%.elf: %.o $(STM32_OBJ)
+	arm-none-eabi-gcc $< $(STM32_OBJ) -T$(STM32F1xx_DIR)/gcc/linker/STM32F103XB_FLASH.ld $(MACHINE_FLAGS) --specs=nosys.specs --specs=nano.specs -lc -o $@
+
+%.o: %.c
+	arm-none-eabi-gcc $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+system_stm32f1xx.o: $(STM32F1xx_DIR)/system_stm32f1xx.c
+	arm-none-eabi-gcc $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+startup_stm32f103xb.o: $(STM32F1xx_DIR)/gcc/startup_stm32f103xb.s
+	arm-none-eabi-as -mcpu=$(CPU) -o $@ $<
+
+flash:
+	stm32flash -w blink.bin -v -g 0x0 $(STM32_SERIAL_DEV)
+
+clean:
+	rm -f *.o *.bin *.elf

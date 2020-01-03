@@ -7,7 +7,6 @@ CFLAGS = -std=c99 -Wall -fno-common -g -DSTM32F103xB $(MACHINE_FLAGS)
 INCLUDES = -I${CMSISDIR}/Include -I${CMSISDIR}/Device/ST/STM32F1xx/Include
 
 STM32_OBJ = system_stm32f1xx.o startup_stm32f103xb.o
-BIN = blink.bin
 
 .PRECIOUS: %.elf %.o
 
@@ -29,7 +28,7 @@ startup_stm32f103xb.o: $(STM32F1xx_DIR)/gcc/startup_stm32f103xb.s
 	arm-none-eabi-as -mcpu=$(CPU) -o $@ $<
 
 flash:
-	stm32flash -w blink.bin -v -g 0x0 $(STM32_SERIAL_DEV)
+	stm32flash -w $(BIN) -v -g 0x0 $(STM32_SERIAL_DEV)
 
 clean:
-	rm -f *.o *.bin *.elf
+	rm -rf *.o *.bin *.elf

@@ -14,7 +14,3 @@ ADD STM32Cube_FW_F1_V1.8.0 /tmp/STM32Cube_FW_F1_V1.8.0
 
 # Optional dev stuff
 RUN apt install -y vim
-
-# Sample programs
-ADD samples /tmp/samples
-

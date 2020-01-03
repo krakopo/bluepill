@@ -3,7 +3,6 @@
 void spin_delay()
 {
 	const int SPIN_DELAY = 500000;
-
 	volatile int i = 0;
 	for (i = 0; i < SPIN_DELAY; i++);
 }
@@ -11,13 +10,13 @@ void spin_delay()
 void led_init()
 {
 	/* Enable the clock */
-    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
 
 	/* Reset PC13 (LED PIN) */
-    GPIOC->CRH &= ~(GPIO_CRH_MODE13 | GPIO_CRH_CNF13);
+	GPIOC->CRH &= ~(GPIO_CRH_MODE13 | GPIO_CRH_CNF13);
 
 	/* Configure PC13 */
-    GPIOC->CRH |= (GPIO_CRH_MODE13_1 | GPIO_CRH_MODE13_0);
+	GPIOC->CRH |= (GPIO_CRH_MODE13_1 | GPIO_CRH_MODE13_0);
 }
 
 void led_on()
@@ -34,8 +33,8 @@ int main()
 {
 	led_init();
 
-    while (1)
-    {
+	while (1)
+	{
 		led_on();
 
 		spin_delay();
@@ -43,7 +42,7 @@ int main()
 		led_off();
 
 		spin_delay();
-    }
-    
-    return 0;
+	}
+
+	return 0;
 }

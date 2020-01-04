@@ -1,5 +1,6 @@
 == The Board
 * STM32F103C8T6 aka "Blue Pill"
+* Reference manual: https://www.st.com/resource/en/reference_manual/cd00171190.pdf
 
 == Dev Env Overview
 * Use FTDI USB to Serial device to upload new programs

@@ -15,17 +15,23 @@ void led_init()
 	/* Reset PC13 (LED PIN) */
 	GPIOC->CRH &= ~(GPIO_CRH_MODE13 | GPIO_CRH_CNF13);
 
-	/* Configure PC13 */
+	/* Set MODE for PC13 to 0b11: Output @ 50 MHz */
 	GPIOC->CRH |= (GPIO_CRH_MODE13_1 | GPIO_CRH_MODE13_0);
 }
 
 void led_on()
 {
+	/*
+	 * Reset bit for PC13 to turn LED on (active low)
+	 *
+	 * BSRR = Bit Set Reset Register
+	 */
 	GPIOC->BSRR = GPIO_BSRR_BR13;
 }
 
 void led_off()
 {
+	/* Set bit for PC13 to turn LED off (active low) */
 	GPIOC->BSRR = GPIO_BSRR_BS13;
 }
 
